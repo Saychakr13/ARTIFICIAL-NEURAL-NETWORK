@@ -1,14 +1,3 @@
-# Artificial Neural Network
-
-# Installing Theano
-# pip install --upgrade --no-deps git+git://github.com/Theano/Theano.git
-
-# Installing Tensorflow
-# Install Tensorflow from the website: https://www.tensorflow.org/versions/r0.12/get_started/os_setup.html
-
-# Installing Keras
-# pip install --upgrade keras
-
 # Part 1 - Data Preprocessing
 
 # Importing the libraries
@@ -29,6 +18,7 @@ labelencoder_X_2 = LabelEncoder()
 X[:, 2] = labelencoder_X_2.fit_transform(X[:, 2])
 onehotencoder = OneHotEncoder(categorical_features = [1])
 X = onehotencoder.fit_transform(X).toarray()
+# now we remove one of the columns representing the country to avoid the dummy variable trap 
 X = X[:, 1:]
 
 # Splitting the dataset into the Training set and Test set
@@ -52,12 +42,14 @@ from keras.layers import Dense
 classifier = Sequential()
 
 # Adding the input layer and the first hidden layer
+# output_dim--no. of node|init--initialises the weights
 classifier.add(Dense(output_dim = 6, init = 'uniform', activation = 'relu', input_dim = 11))
 
 # Adding the second hidden layer
 classifier.add(Dense(output_dim = 6, init = 'uniform', activation = 'relu'))
 
 # Adding the output layer
+# sigmoid has been used for binary output.In case of more than two categories we may use softmax activation function
 classifier.add(Dense(output_dim = 1, init = 'uniform', activation = 'sigmoid'))
 
 # Compiling the ANN
